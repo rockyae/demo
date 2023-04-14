@@ -1,2 +1,16 @@
 server:
   port: 9000
+
+spring:
+  application:
+    name: demoApplication
+  datasource:
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC
+    username: root
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:mapper/*
+  type-aliases-package: com.example.demo.easyexcel
+  configuration:
+    map-underscore-to-camel-case: true
