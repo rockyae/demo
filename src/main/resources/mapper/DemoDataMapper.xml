@@ -13,10 +13,18 @@
 <!--    <select id="selectBlog" resultType="DemoData">-->
 <!--    select * from t_student_info where F_id = #{id}-->
 <!--  </select>-->
+    <sql id="columns">
+        F_stu_name,F_date,F_age
+    </sql>
+
+
     <insert id="batchInsert">
-        insert into t_student_info values
-        <foreach item="item" collection="list" open="(" separator="," close=")" index="index">
-          #{item}
+        insert into t_student_info
+        <trim prefix="(" suffix=")values">
+            <include refid="columns"></include>
+        </trim>
+        <foreach item="item" collection="list" separator="," index="index">
+          (#{item.stuName},#{item.date},#{item.age})
         </foreach>
     </insert>
 </mapper>

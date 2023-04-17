@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+<!--    <conversionRule conversionWord="msg" converterClass="com.yeahka.finance.support.LogbackSensitiveFilter" />-->
+    <property name="logLevel" value="debug"/>
+    <property name="logPath" value="log/demo" />
+    <property name="logCharset" value="UTF-8" />
+    <!--项目的模块名称，不能包含中划线，用来汇聚同一个模块的监控日志的目录-->
+    <property name="MODULE_NAME" value="abroad-business-merchant"/>
+    <!--监控日志的统一路径-->
+    <property name="MONITOR_LOG_HOME" value="/data/logs/tomcat2prom"/>
+    <property name="DEFAULT_LEVEL" value="DEBUG" />
+
+    <springProfile name="local">
+        <!--监控日志的统一路径-->
+        <property name="MONITOR_LOG_HOME" value="D:\\prom\\"/>
+    </springProfile>
+
+    <!--格式化输出：%d表示日期，%log_id表示请求唯一标识，%-5level：级别从左显示5个字符宽度%M方法名%L  行号%msg：日志消息，%n是换行符-->
+    <property name="logPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%X{TRACE_ID}] [%thread] [%C{0}.%M:%L] %-5level - %msg%n" />
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logPattern}</pattern>
+            <charset>${logCharset}</charset><!-- 此处设置字符集 -->
+        </encoder>
+    </appender>
+
+    <!-- 按照每天生成日志文件 -->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${logPath}/info.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logPattern}</pattern>
+            <charset>${logCharset}</charset><!-- 此处设置字符集 -->
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 按照每天生成日志文件 -->
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${logPath}/debug.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>5</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logPattern}</pattern>
+            <charset>${logCharset}</charset><!-- 此处设置字符集 -->
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logPath}/error.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <MaxHistory>60</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logPattern}</pattern>
+            <charset>${logCharset}</charset><!-- 此处设置字符集 -->
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="PROM_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--这里的路径自行配置，下面的请保持一致-->
+        <file>${MONITOR_LOG_HOME}/${MODULE_NAME}/prom.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 与上面的路径保持一致 -->
+            <fileNamePattern>${MONITOR_LOG_HOME}/${MODULE_NAME}/prom.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%msg</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <logger name="PROM" level="INFO" additivity="false">
+        <appender-ref ref="PROM_FILE"/>
+    </logger>
+
+    <logger name="org.springframework.jdbc" level="${logLevel}" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <!--<logger> 标签用来限定特定的包的日志输出级别-->
+    <logger name="com.example.demo" level="${logLevel}" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="DEBUG_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+    </logger>
+
+    <!-- 日志输出级别 -->
+    <root level="info">
+<!--        <springProfile name="local">-->
+            <appender-ref ref="STDOUT"/>
+<!--        </springProfile>-->
+        <appender-ref ref="INFO_FILE"/>
+    </root>
+</configuration>

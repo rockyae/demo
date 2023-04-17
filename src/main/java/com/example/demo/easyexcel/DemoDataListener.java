@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Slf4j
@@ -16,7 +17,6 @@ public class DemoDataListener implements ReadListener<DemoData> {
 
     private List<DemoData> cachedDataList = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
 
-    @Autowired
     private DemoMapper demoMapper;
 
     @Override
@@ -42,7 +42,11 @@ public class DemoDataListener implements ReadListener<DemoData> {
     }
     private void saveData() {
         log.info("{}条数据，开始存储数据库！", cachedDataList.size());
-        demoMapper.batchInsert(cachedDataList);
+        try{
+            demoMapper.batchInsert(cachedDataList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         log.info("存储数据库成功！");
     }
 

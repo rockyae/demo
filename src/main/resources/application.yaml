@@ -5,12 +5,15 @@ spring:
   application:
     name: demoApplication
   datasource:
-    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/demo?serverTimezone=UTC
     username: root
-    password:
+    password: root123
     driver-class-name: com.mysql.jdbc.Driver
+log:
+  level: debug
 mybatis:
   mapper-locations: classpath:mapper/*
   type-aliases-package: com.example.demo.easyexcel
   configuration:
     map-underscore-to-camel-case: true
+    logImpl: org.apache.ibatis.logging.slf4j.Slf4jImpl
