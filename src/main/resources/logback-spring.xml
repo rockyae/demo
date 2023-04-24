@@ -2,7 +2,7 @@
 <configuration debug="false">
 <!--    <conversionRule conversionWord="msg" converterClass="com.yeahka.finance.support.LogbackSensitiveFilter" />-->
     <property name="logLevel" value="debug"/>
-    <property name="logPath" value="log/demo" />
+    <property name="logPath" value="D:/log/demo" />
     <property name="logCharset" value="UTF-8" />
     <!--项目的模块名称，不能包含中划线，用来汇聚同一个模块的监控日志的目录-->
     <property name="MODULE_NAME" value="abroad-business-merchant"/>
