@@ -10,17 +10,19 @@ import java.math.BigDecimal;
 public class DeepCopy {
 
     public static void main(String[] args) {
-//        Point point = new Point(1,2);
-//        System.out.println("修改前:"+point);
-//        modifyPoint(point);
-//        modifyPointV2(point);//只存在值传递
-//        System.out.println("修改后:"+point);
+        Point point = new Point(1,2);
+        System.out.println("修改前:"+point);
+        System.out.println(point.toString());
+        modifyPoint(point);
+        modifyPointV2(point);//只存在值传递
+        System.out.println("修改后:"+point);
         logTest();
     }
-
+    //引用同一个对象，修改成功
     public static void modifyPoint(Point p){
         p.setX(5);
         p.setY(6);
+        System.out.println(p.toString());
         System.out.println("方法里："+p);
     }
 
