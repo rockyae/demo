@@ -5,22 +5,34 @@ import com.example.demo.module.Point;
 public class Singleton {
     //类的成员变量，创建实例时创建
     Point p;
+
+    final static Point q = new Point();
+
+
+    private static class innerClass{
+        private static final Point INSTANCE = new Point();
+    }
+    public static Point getSingleInstance(){
+        return innerClass.INSTANCE;
+    }
+
     public static void main(String[] args) {
         Singleton singleton = new Singleton();
         Runnable r = new Runnable() {
             @Override
             public void run() {
-                System.out.println(singleton);
                 Point p = singleton.createSinglePoint();
-                System.out.println(p);
+                System.out.println("双重锁: "+p);
+                System.out.println("饿汉式: "+q);
+                System.out.println("静态工厂："+getSingleInstance());
             }
         };
         Thread t1 = new Thread(r);
         Thread t2 = new Thread(r);
-        Thread t3 = new Thread(r);
+
         t1.start();
         t2.start();
-        t3.start();
+
         //只创建过一次对象
 //        Singleton singleton = new Singleton();
 //        Point p1 = singleton.createSinglePoint();
@@ -38,7 +50,7 @@ public class Singleton {
      *             return p;
      *     }
      */
-
+    //懒汉式：
     public  Point createSinglePoint(){
         //初次判断如果创建过直接返回
         if(p == null){
@@ -52,4 +64,6 @@ public class Singleton {
         }
         return p;
     }
+    //饿汉式:在类加载完成对象实例化(如果一直未使用这个对象，会造成内存的浪费)
+
 }
