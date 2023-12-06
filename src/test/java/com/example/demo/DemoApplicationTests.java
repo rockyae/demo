@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.io.InputStream;
+import java.util.HashSet;
 
 
 @SpringBootTest
@@ -54,4 +55,11 @@ class DemoApplicationTests {
         System.out.println(point1);
 
     }
+
+    @Test
+    public void hashSetTest(){
+        //
+
+    }
+
 }

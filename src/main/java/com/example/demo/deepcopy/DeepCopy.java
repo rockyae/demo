@@ -27,7 +27,9 @@ public class DeepCopy {
     }
 
     public static void modifyPointV2(Point p){
-         p = Point.builder().x(7).y(8).build();
+         p = new Point();
+         p.setX(7);
+         p.setY(8);
         System.out.println("方法里："+p);
     }
 

@@ -9,8 +9,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +26,19 @@ import java.security.Key;
 import java.util.Date;
 
 @RestController
-public class HelloController {
+public class HelloController implements BeanNameAware, BeanFactoryAware , BeanPostProcessor {
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 
+    }
+
+    @Nullable
+    private String beanName;
+
+    @Override
+    public void setBeanName(String name) {
+        this.beanName = name;
+    }
 
     @Data
     @AllArgsConstructor
@@ -47,6 +64,11 @@ public class HelloController {
     @GetMapping("/date")
     public String printDate(){
         return new DateSet(new Date(),new java.sql.Date(new Date().getTime()),new DateTime()).toString();
+    }
+
+    @GetMapping("/printBeanName")
+    public String printBeanName(){
+        return this.beanName;
     }
 
     /**
