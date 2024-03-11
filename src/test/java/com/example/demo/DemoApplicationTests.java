@@ -3,6 +3,7 @@ package com.example.demo;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.listener.PageReadListener;
 import com.alibaba.fastjson.JSON;
+import com.example.demo.controller.HelloController;
 import com.example.demo.easyexcel.DemoData;
 import com.example.demo.easyexcel.DemoDataListener;
 import com.example.demo.easyexcel.DemoMapper;
@@ -12,7 +13,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -60,6 +63,14 @@ class DemoApplicationTests {
     public void hashSetTest(){
         //
 
+    }
+
+    @Test
+    public void iocTest(){
+        //
+        BeanFactory ioc = new DefaultListableBeanFactory();
+        HelloController helloController = (HelloController)ioc.getBean("helloController");
+        helloController.printBeanName();
     }
 
 }

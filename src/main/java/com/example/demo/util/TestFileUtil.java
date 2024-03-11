@@ -34,4 +34,10 @@ public class TestFileUtil {
     public static File readUserHomeFile(String pathName) {
         return new File(System.getProperty("user.home") + File.separator + pathName);
     }
+
+    public static void main(String[] args) {
+        String s = "";
+        s += "a";
+        System.out.println(s);
+    }
 }
