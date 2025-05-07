@@ -21,6 +21,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.io.InputStream;
 import java.util.HashSet;
+import java.util.concurrent.locks.LockSupport;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 @SpringBootTest
@@ -35,6 +37,8 @@ class DemoApplicationTests {
 
     @Autowired
     private RedisTemplate redisForString;
+
+    int a = 10;
     @Test
     public void simpleRead(){
         log.info("内部");
@@ -66,11 +70,61 @@ class DemoApplicationTests {
     }
 
     @Test
-    public void iocTest(){
-        //
-        BeanFactory ioc = new DefaultListableBeanFactory();
-        HelloController helloController = (HelloController)ioc.getBean("helloController");
-        helloController.printBeanName();
+    public void iocTest() throws InterruptedException {
+        long start = 0;
+        Thread t = new Thread(()->{
+            for (int i = 0; i < 100; i++) {
+                System.out.println(i);
+               if(i == 50){
+                   LockSupport.park();
+               }
+            }
+        });
+        try{
+             start = System.currentTimeMillis();
+            t.start();
+        }finally {
+            Thread.sleep(3000);
+            LockSupport.unpark(t);
+            long duration = System.currentTimeMillis()-start;
+            System.out.println("finally,耗时"+duration/1000+"s");
+        }
+    }
+
+    @Test
+    public void lockTest() throws InterruptedException {
+        ReentrantLock o = new ReentrantLock(true);
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                o.lock();
+                for(int i=0; i<100000; i++){
+                    a--;
+                    System.out.println(a);
+                }
+                System.out.println("t1结束");
+                o.unlock();
+            }
+        });
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                o.lock();
+                for(int i=0; i<100000; i++){
+                    a++;
+                    System.out.println(a);
+                }
+                o.unlock();
+                System.out.println("t2结束");
+            }
+        });
+        t1.setName("t1");
+        t2.setName("t2");
+        t1.start();
+        t2.start();
+        Thread.sleep(50000);
+        System.out.println(a);
     }
 
 }

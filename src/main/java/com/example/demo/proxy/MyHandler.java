@@ -15,6 +15,7 @@ public class MyHandler implements InvocationHandler {
     public Object getProxy(){
         //使用jdk提供的Proxy对象
         //这里用于生成o的代理对象
+        System.out.println(111);
         return Proxy.newProxyInstance(this.getClass().getClassLoader(), this.getClass().getInterfaces(),this);
     }
 
