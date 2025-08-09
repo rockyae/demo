@@ -12,4 +12,9 @@ public class MyObject implements PrintNum{
     public void print(){
         System.out.println(this.num);
     }
+
+    @Override
+    public void play() {
+        System.out.println("play");
+    }
 }

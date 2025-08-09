@@ -8,11 +8,14 @@ import com.example.demo.easyexcel.DemoData;
 import com.example.demo.easyexcel.DemoDataListener;
 import com.example.demo.easyexcel.DemoMapper;
 import com.example.demo.module.Point;
+import com.example.demo.mqdemo.Send;
+import com.example.demo.tx.TestTranction;
 import com.example.demo.util.TestFileUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -37,6 +40,12 @@ class DemoApplicationTests {
 
     @Autowired
     private RedisTemplate redisForString;
+
+    @Autowired
+    private Send send;
+
+    @Autowired
+    private TestTranction testTranction;
 
     int a = 10;
     @Test
@@ -126,5 +135,21 @@ class DemoApplicationTests {
         Thread.sleep(50000);
         System.out.println(a);
     }
+
+
+//    @Test
+//    public void MqTest() throws InterruptedException {
+////        send.send("你好");
+//        for (int i = 0; i < 4; i++) {
+//            send.send(String.valueOf(i));
+//            Thread.sleep(1000);
+//        }
+//    }
+
+    @Test
+    public void txTest(){
+        testTranction.testCreate();
+    }
+
 
 }

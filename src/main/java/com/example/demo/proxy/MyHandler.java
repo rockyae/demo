@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public class MyHandler implements InvocationHandler {
+public class MyHandler implements InvocationHandler{
 
     private MyObject o;
 
@@ -15,8 +15,8 @@ public class MyHandler implements InvocationHandler {
     public Object getProxy(){
         //使用jdk提供的Proxy对象
         //这里用于生成o的代理对象
-        System.out.println(111);
-        return Proxy.newProxyInstance(this.getClass().getClassLoader(), this.getClass().getInterfaces(),this);
+        System.out.println("执行了getProxy方法");
+        return Proxy.newProxyInstance(o.getClass().getClassLoader(), o.getClass().getInterfaces(),this);
     }
 
     @Override

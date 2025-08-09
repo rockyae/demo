@@ -10,8 +10,8 @@ public class AQSTest {
 
 
     public static void main(String[] args) {
-        //创建两个并发线程，模拟只有一个获取到锁,持有5s后释放，另一个被阻塞
-        for(int i=1; i< 4; i++){
+        //创建3个并发线程，模拟只有一个获取到锁,持有2s后释放，另一个被阻塞
+        for(int i=0; i< 3; i++){
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -19,7 +19,7 @@ public class AQSTest {
                     System.out.println(Thread.currentThread().getName()+" lock...");
                     System.out.println(Thread.currentThread().getName()+" do something...");
                     try {
-                        TimeUnit.SECONDS.sleep(5);
+                        TimeUnit.SECONDS.sleep(2);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }finally {

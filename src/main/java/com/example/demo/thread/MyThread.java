@@ -14,36 +14,37 @@ public class MyThread implements Runnable{
     public void run() {
         try {
             int i = 0;
-            while (!Thread.currentThread().isInterrupted()){//true
+            while (!Thread.currentThread().isInterrupted()){//中断位为false, 表示未被中断
                 i++;
-                if(i%1000 == 0)
+                if(i%10000 == 0)
                     System.out.println(i);
             }
+            System.out.println(Thread.currentThread().isInterrupted());//中断位为true, 表示被中断
             Thread.sleep(5000);
         } catch (Exception e) {
-            System.out.println(Thread.currentThread().isInterrupted());//false
+            System.out.println("子线程"+Thread.currentThread().isInterrupted());//中断位为false, 表示中断位被清除
             e.printStackTrace();
         }
     }
 
 
     public static void main(String[] args) throws InterruptedException {
-//        Thread thread = new Thread(new MyThread());
-//        thread.setName("MyThead");
-//        thread.start();
-//        TimeUnit.SECONDS.sleep(1);
-//        thread.interrupt();//中断一个处于等待态的线程会抛出异常
-//        TimeUnit.SECONDS.sleep(8);
-//        System.out.println(thread.isInterrupted());
-//        System.out.println("main run");
+        Thread thread = new Thread(new MyThread());
+        thread.setName("MyThead");
+        thread.start();
+        TimeUnit.SECONDS.sleep(1);
+        thread.interrupt();//中断一个处于等待态的线程会抛出异常并重置中断标志位为false
+        TimeUnit.SECONDS.sleep(5);
+        System.out.println(thread.isInterrupted());
+        System.out.println("main run");
 
         //模拟一个线程插入后正在扩容，另一个线程put会发生什么？
-
-        concurrentHashMap.put(1,"test");//主线程插入
-        concurrentHashMap.put(4,"test4");
-        Thread thread = new Thread(new MyThread(),"myThraed");
-        thread.start();
-        concurrentHashMap.put(2,"test2");
+//
+//        concurrentHashMap.put(1,"test");//主线程插入
+//        concurrentHashMap.put(4,"test4");
+//        Thread thread = new Thread(new MyThread(),"myThraed");
+//        thread.start();
+//        concurrentHashMap.put(2,"test2");
 
     }
 }
