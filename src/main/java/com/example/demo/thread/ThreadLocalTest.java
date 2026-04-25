@@ -2,12 +2,14 @@ package com.example.demo.thread;
 
 public class ThreadLocalTest {
     // 创建一个 ThreadLocal 实例
-    private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<Integer> threadLocal = new ThreadLocal<>();
 
     public static void main(String[] args) {
         // 在主线程中设置数据
-        String s = "主线程初始数据";
-        threadLocal.set(s);
+//        String s = "主线程初始数据";
+        int num = 100;
+        threadLocal.set(num);
+        Integer numFromMain = threadLocal.get();
 
         // 打印主线程中 ThreadLocal 的初始值
         System.out.println("主线程初始数据: " + threadLocal.get());
@@ -15,12 +17,9 @@ public class ThreadLocalTest {
         // 创建子线程
         Thread childThread = new Thread(() -> {
             // 在子线程中获取数据
-            String data = threadLocal.get();
-            System.out.println("子线程获取到的初始数据: " + s);
-
-            // 在子线程中修改 ThreadLocal 的数据
-            threadLocal.set(s);
-            System.out.println("子线程修改后的数据: " + threadLocal.get());
+            threadLocal.set(200);
+            Integer data = threadLocal.get();
+            System.out.println("子线程获取到的初始数据: " + data);
         });
 
         // 启动子线程

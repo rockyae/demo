@@ -16,7 +16,7 @@ public class SortTest {
             String s = sc.nextLine();
             arr[i] = s;
         }
-        Collections.sort(Arrays.asList(arr), Comparator.comparingInt(String::length));
+        Arrays.sort(arr, Comparator.comparingInt(String::length));
         System.out.println(Arrays.asList(arr));
     }
 }

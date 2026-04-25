@@ -9,6 +9,8 @@ package com.example.demo.module;
 import com.example.demo.serialization.Person;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -24,16 +26,17 @@ import java.util.TreeMap;
 @Component
 public class Point implements Serializable , ApplicationContextAware {
     private static final long serialVersionUID = 1L;
+    @Getter
+    @Setter
     int x;
+    @Setter
+    @Getter
     int y;
     private String ENV_NAME ;
 
 
+    @Getter
     private Person person;
-
-    public int getX() {
-        return x;
-    }
 
     public Point(int x, int y) {
         this.x = x;
@@ -43,23 +46,6 @@ public class Point implements Serializable , ApplicationContextAware {
     public Point() {
         //System.out.println("无参构造器被调用");
         System.out.println(Thread.currentThread().getName()+"在运行");
-    }
-
-    public void setX(int x) {
-        System.out.println("setX方法被调用");
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public Person getPerson() {
-        return person;
     }
 
     public void setPerson(Person person) {

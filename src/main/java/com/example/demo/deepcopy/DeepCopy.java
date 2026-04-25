@@ -12,7 +12,6 @@ public class DeepCopy {
     public static void main(String[] args) {
         Point point = new Point(1,2);
         System.out.println("修改前:"+point);
-        System.out.println(point.toString());
         modifyPoint(point);
         modifyPointV2(point);//只存在值传递
         System.out.println("修改后:"+point);

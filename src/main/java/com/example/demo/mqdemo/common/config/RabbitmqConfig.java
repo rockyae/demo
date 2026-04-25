@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+// 自动绑定。队列在声明时会自动绑定到默认交换机，且绑定键 (Binding Key) 就是队列名。
 public class RabbitmqConfig {
     public static final String QUEUE_NAME = "listenQueue";
 

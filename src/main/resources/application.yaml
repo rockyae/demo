@@ -5,10 +5,24 @@ spring:
   application:
     name: demoApplication
   datasource:
-    url: jdbc:mysql://localhost:3306/demo?serverTimezone=UTC
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.jdbc.Driver
+
+#    url: jdbc:mysql://localhost:3306/demo?serverTimezone=UTC
+#    username: root
+#    password: 123456
+#    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      ds1:
+        url: jdbc:mysql://localhost:3306/db1
+        username: root
+        password: 123456
+      ds2:
+        url: jdbc:mysql://localhost:3306/db2
+        username: root
+        password: 123456
+    initialization-mode: never
+
+
   redis:
     host: 127.0.0.1
     port: 6379
@@ -21,12 +35,12 @@ spring:
         max-wait: 100 # 连接等待时间
 log:
   level: debug
-mybatis:
-  mapper-locations: classpath:mapper/*
-  type-aliases-package: com.example.demo.easyexcel
-  configuration:
-    map-underscore-to-camel-case: true
-    logImpl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+#mybatis:
+#  mapper-locations: classpath:mapper/*
+#  type-aliases-package: com.example.demo.easyexcel
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    logImpl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 
 test:
   keys:
